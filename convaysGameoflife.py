@@ -1,13 +1,16 @@
 import tkinter as tk
-from tkinter import Spinbox, ttk
+from tkinter import Label, Spinbox, ttk
 import random
 
 # Clearer Ui using ctypes
 import ctypes
+from typing import Text
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 root = tk.Tk()
 root.geometry("801x850")
+root.title("Convay's Game Of Life")
+root.resizable(0,0)
 
 c = tk.Canvas(root, height=801, width=801, bg='WHITE',borderwidth=0, highlightthickness=0)
 c.grid(row=0,column=0)
@@ -31,6 +34,7 @@ def DrawGrid(board,noOfGrids):
 
 def CountNeighbour(matrix, r, c):
     def get(r, c):
+        root.update()
         if 0 <= r < len(matrix) and 0 <= c < len(matrix[r]):
             return matrix[r][c]
         else:
@@ -57,13 +61,13 @@ def GameOfLife(board,noofgrids):
             elif board[i][j] == 0 :
                 if CountNeighbour(board,i,j) == 3:
                     board[i][j] = 1
-    
        
 def RandomizeTheGrid():
     noofgrids = noSpin.get()
     board = [[random.choice([0,1]) for x in range(noofgrids)] for x in range(noofgrids)]
     DrawGrid(board,noofgrids)
-    while(1):
+    while(1):   
+        root.update()
         GameOfLife(board,noofgrids)
         DrawGrid(board,noofgrids)
 
@@ -71,7 +75,7 @@ def SimulateGameOfLife():
     pass
     """
         while(1):
-            root.update_idletasks()
+            root.update()
             GameOfLife(board,noofgrids)
             DrawGrid(board,noofgrids)
     """
@@ -85,16 +89,18 @@ noSpin.set(30)
 frame = tk.Frame(root)
 frame.grid(row=1,column=0,padx=10,pady=10)
 
+Label(frame,text="Dimensions NxN :").grid(row= 0, column= 0,padx= 8,pady= 2)
+
 spinbox = tk.Spinbox(frame,textvariable=noSpin,from_=2,to=1000,increment=2,width=12,font="arial 9")
-spinbox.grid(row=0,column=0)
+spinbox.grid(row=0,column=1,padx=8,pady=2)
 
 buttonRandom = tk.Button(frame,text="Randomize",command=RandomizeTheGrid,width=12,font="arial 9")
-buttonRandom.grid(row=0,column=1,padx=8,pady=2)
-
-buttonRandom = tk.Button(frame,text="Start the Life ",command=SimulateGameOfLife,width=12,font="arial 9",state=tk.DISABLED)
 buttonRandom.grid(row=0,column=2,padx=8,pady=2)
 
+buttonRandom = tk.Button(frame,text="Start the Life ",command=SimulateGameOfLife,width=12,font="arial 9",state=tk.DISABLED)
+buttonRandom.grid(row=0,column=3,padx=8,pady=2)
+
 buttonStop = tk.Button(frame,text="Exit",command=Exit,fg="white",bg="red",width=12,font="arial 9")
-buttonStop.grid(row=0,column=3,padx=8,pady=2)
+buttonStop.grid(row=0,column=4,padx=8,pady=2)
 
 root.mainloop()
