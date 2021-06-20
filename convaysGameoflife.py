@@ -1,25 +1,33 @@
 import tkinter as tk
+from tkinter import Spinbox, ttk
 import random
 
-root = tk.Tk()
-root.geometry("601x640")
+# Clearer Ui using ctypes
+import ctypes
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-c = tk.Canvas(root, height=601, width=601, bg='WHITE',borderwidth=0, highlightthickness=0)
+root = tk.Tk()
+root.geometry("801x840")
+
+c = tk.Canvas(root, height=801, width=801, bg='WHITE',borderwidth=0, highlightthickness=0)
 c.grid(row=0,column=0)
 
 def DrawGrid(board,noOfGrids):
-    size = 600/noOfGrids
+    size = 800/noOfGrids
     width = 1
     gap = 0
-    for j in range(0,int(600/size)):
-        for i in range(0,int(600/size)):
-            if board[i][j] == 1:
+    for i in range(0,int(800/size)):
+        for j in range(0,int(800/size)):
+            if board[i][j] == 0:
+                fill = 'white'
+                c.create_rectangle(i*size+gap,j*size+gap,i*size+size,j*size+size,width=width,outline="white",fill=fill)
+                #c.create_text(i*size+int(size/2),j*size+int(size/2),text=board[i][j])
+
+            elif board[i][j] == 1:
                 fill = 'black'
-                c.create_rectangle(i*size+gap,j*size+gap,i*size+size,j*size+size,width=width,outline="black",fill=fill)
-            #else:
-                #fill = 'white'
-                #fill= 'bisque3'
-                #c.create_rectangle(i*size+gap,j*size+gap,(i*size+size),(j*size+size),width=width,outline="black",fill=fill)
+                c.create_rectangle(i*size+gap,j*size+gap,i*size+size,j*size+size,width=width,outline="white",fill=fill)
+                #c.create_text(i*size+int(size/2),j*size+int(size/2),text=board[i][j],fill="white")
+    root.update_idletasks()
 
 def CountNeighbour(matrix, r, c):
     def get(r, c):
@@ -34,23 +42,59 @@ def CountNeighbour(matrix, r, c):
 
     return sum(neighbors_list)
 
-def SimulateGameOfLife(board,noofgrids):
+def GameOfLife(board,noofgrids):
     for i in range(noofgrids):
         for j in range(noofgrids):
-            print(CountNeighbour(board,i,j),end=" ")
-            
-        
-def CreateGrid(noofgrids):
-    board = [[int(random.choice([0,1])) for x in range(noofgrids)] for x in range(noofgrids)]
-    i = int(noofgrids/2)
-    j = int(noofgrids/2)
-    board[i][j]=1
-    DrawGrid(board,noofgrids)
-    
-    SimulateGameOfLife(board,noofgrids)
-        
+            root.update()
+            if board[i][j] == 1 :
+                if CountNeighbour(board,i,j) > 3:
+                    board[i][j] = 0
+                elif CountNeighbour(board,i,j) < 2 :
+                    board[i][j] = 0
+                else :
+                    board[i][j] = 0
 
-noofgrids = 20
-CreateGrid(noofgrids)
+            elif board[i][j] == 0 :
+                if CountNeighbour(board,i,j) == 3:
+                    board[i][j] = 1
+    
+       
+def RandomizeTheGrid():
+    noofgrids = noSpin.get()
+    board = [[random.choice([0,1]) for x in range(noofgrids)] for x in range(noofgrids)]
+    DrawGrid(board,noofgrids)
+    while(1):
+        GameOfLife(board,noofgrids)
+        DrawGrid(board,noofgrids)
+
+def SimulateGameOfLife():
+    pass
+"""
+    while(1):
+        root.update_idletasks()
+        GameOfLife(board,noofgrids)
+        DrawGrid(board,noofgrids)
+"""
+
+def Exit():
+    root.destroy()
+
+noSpin = tk.IntVar()
+noSpin.set(30)
+
+frame = tk.Frame(root)
+frame.grid(row=1,column=0)
+
+spinbox = tk.Spinbox(frame,textvariable=noSpin,from_=2,to=1000,increment=2)
+spinbox.grid(row=0,column=0)
+
+buttonRandom = tk.Button(frame,text="Randomize",command=RandomizeTheGrid,width=15)
+buttonRandom.grid(row=0,column=1,padx=8,pady=2)
+
+buttonRandom = tk.Button(frame,text="Start the Life ",command=SimulateGameOfLife,width=15,state=tk.DISABLED)
+buttonRandom.grid(row=0,column=2,padx=8,pady=2)
+
+buttonStop = tk.Button(frame,text="Exit",command=Exit,fg="white",bg="red",width=15)
+buttonStop.grid(row=0,column=3,padx=8,pady=2)
 
 root.mainloop()
