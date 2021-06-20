@@ -7,7 +7,7 @@ import ctypes
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 root = tk.Tk()
-root.geometry("801x840")
+root.geometry("801x850")
 
 c = tk.Canvas(root, height=801, width=801, bg='WHITE',borderwidth=0, highlightthickness=0)
 c.grid(row=0,column=0)
@@ -69,12 +69,12 @@ def RandomizeTheGrid():
 
 def SimulateGameOfLife():
     pass
-"""
-    while(1):
-        root.update_idletasks()
-        GameOfLife(board,noofgrids)
-        DrawGrid(board,noofgrids)
-"""
+    """
+        while(1):
+            root.update_idletasks()
+            GameOfLife(board,noofgrids)
+            DrawGrid(board,noofgrids)
+    """
 
 def Exit():
     root.destroy()
@@ -83,18 +83,18 @@ noSpin = tk.IntVar()
 noSpin.set(30)
 
 frame = tk.Frame(root)
-frame.grid(row=1,column=0)
+frame.grid(row=1,column=0,padx=10,pady=10)
 
-spinbox = tk.Spinbox(frame,textvariable=noSpin,from_=2,to=1000,increment=2)
+spinbox = tk.Spinbox(frame,textvariable=noSpin,from_=2,to=1000,increment=2,width=12,font="arial 9")
 spinbox.grid(row=0,column=0)
 
-buttonRandom = tk.Button(frame,text="Randomize",command=RandomizeTheGrid,width=15)
+buttonRandom = tk.Button(frame,text="Randomize",command=RandomizeTheGrid,width=12,font="arial 9")
 buttonRandom.grid(row=0,column=1,padx=8,pady=2)
 
-buttonRandom = tk.Button(frame,text="Start the Life ",command=SimulateGameOfLife,width=15,state=tk.DISABLED)
+buttonRandom = tk.Button(frame,text="Start the Life ",command=SimulateGameOfLife,width=12,font="arial 9",state=tk.DISABLED)
 buttonRandom.grid(row=0,column=2,padx=8,pady=2)
 
-buttonStop = tk.Button(frame,text="Exit",command=Exit,fg="white",bg="red",width=15)
+buttonStop = tk.Button(frame,text="Exit",command=Exit,fg="white",bg="red",width=12,font="arial 9")
 buttonStop.grid(row=0,column=3,padx=8,pady=2)
 
 root.mainloop()
