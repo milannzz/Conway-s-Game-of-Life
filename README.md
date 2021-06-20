@@ -8,7 +8,7 @@ All other live cells die in the next generation. Similarly, all other dead cells
 
 Samples -
 
-[](https://github.com/milannzz/Conway-s-Game-of-Life/blob/main/Images/pic%201.png)
+[](https://github.com/milannzz/Conway-s-Game-of-Life/blob/main/Images/pic1.png)
 
 [](https://github.com/milannzz/Conway-s-Game-of-Life/blob/main/Images/pic2.png)
 
