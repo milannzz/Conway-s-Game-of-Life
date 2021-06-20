@@ -1,5 +1,7 @@
 # Conway-s-Game-of-Life
 
+Convays Game Of Using Tkinter GUI.
+
 The Game of Life is an imaginary robot game (cellular automaton) made by the British mathematician John Horton Conway in 1970.
 The Rules of game is simple -
 Any live cell with two or three live neighbours survives.
